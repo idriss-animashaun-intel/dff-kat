@@ -1,0 +1,9 @@
+dt_screen = Open(
+	txt_path, 
+
+	Column Names are on line( 1 ),
+	End of Field( "Comma" ), 
+
+	Data Starts on Line( 2 ),
+	End Of Line( "CRLF" )
+);
