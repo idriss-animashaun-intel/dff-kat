@@ -1,3 +1,8 @@
+ClearLog();
+Close All( Data Tables, NoSave );
+Close All( Journals, NoSave );
+Close All( Reports, NoSave );
+
 dt_screen = Open(
 	txt_path, 
 
@@ -7,3 +12,63 @@ dt_screen = Open(
 	Data Starts on Line( 2 ),
 	End Of Line( "CRLF" )
 );
+
+colnames_all = dt_screen << get column names();
+for (i=1, i<=N Items(colnames_all),i++,
+    Column(dt_screen,colnames_all[i]) << Set Property( "Missing Value Codes", {-9999,-8888,-5555, -999, -555} );
+);
+
+journal_window = New Window( "R^2", lineupProb1 = Lineup Box( N Col( 2 ) ) );
+
+
+// For each parameter we want to filter out jank columns/data (mean == 0, outliers etc.)
+for (i=11, i<=N Items(colnames_all),i =i+2,
+    If( Column( i ) << Get Data Type() == "Numeric",
+        // check column mean for each of the TP - if empty, skip this param
+        is_empty = 0;
+        col_mean1 = Col Mean(Column(dt_screen,colnames_all[i]));
+        
+        if (Is Missing(col_mean1) | (col_mean1 == 0), is_empty = 1);
+
+        // if you found missing col, skip to the next loop
+        if (is_empty== 1, Continue());
+
+
+        //  X by Y
+        lineupProb1 << append(
+        
+			randomWindow1 = dt_screen << Bivariate(
+				Y(	Column(colnames_all[i - 1])),
+				X(	Column(colnames_all[i])),	
+                Fit Line( 1 ),
+                SendToReport(
+                    Dispatch(
+                    {},
+                    "Bivar Plot",
+                    FrameBox,
+                    {Row Legend(
+                        Column("WAFER_ID"),
+                        Color( 1 ),
+                        Color Theme( "JMP Vibrant" ),
+                        Marker( 0 ),
+                        Marker Theme( "" ),
+                        Continuous Scale( 0 ),
+                        Reverse Scale( 0 ),
+                        Excluded Rows( 0 )
+                    )}
+                )
+            ),
+            SendToReport( Dispatch( {}, "Linear Fit", OutlineBox, {Close( 1 )} ) ),
+            Fit Special( Intercept( 0 ), Slope( 1 ), {Line Color( {61, 200, 70} )} ),
+            SendToReport( Dispatch( {}, "Linear Fit", OutlineBox(2), {Close( 1 )} ) )
+            );
+        ) // no semi colon, part of an if statement...
+    )    
+);// append
+
+journal_window << save journal(txt_save_path.jrn");
+
+dt_screen << save as (txt_save_path");
+
+Quit();
+            
