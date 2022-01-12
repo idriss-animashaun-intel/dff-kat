@@ -532,9 +532,9 @@ tab_parent.grid(sticky=('news'))
 def callback(url):
     webbrowser.open_new(url)
 
-link1 = Label(tab1, text="Wiki: https://goto/manifestation", fg="blue", cursor="hand2")
+link1 = Label(tab1, text="Wiki: https://goto/dffkat", fg="blue", cursor="hand2")
 link1.grid(row = 0,column = 0, sticky=W, columnspan = 2)
-link1.bind("<Button-1>", lambda e: callback("https://goto/manifestation"))
+link1.bind("<Button-1>", lambda e: callback("https://goto/dffkat"))
 
 link2 = Label(tab1, text="IT support contact: idriss.animashaun@intel.com", fg="blue", cursor="hand2")
 link2.grid(row = 1,column = 0, sticky=W, columnspan = 2)
