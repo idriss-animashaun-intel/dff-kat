@@ -534,7 +534,7 @@ def callback(url):
 
 link1 = Label(tab1, text="Wiki: https://goto/dffkat", fg="blue", cursor="hand2")
 link1.grid(row = 0,column = 0, sticky=W, columnspan = 2)
-link1.bind("<Button-1>", lambda e: callback("https://goto/dffkat"))
+link1.bind("<Button-1>", lambda e: callback("https://gitlab.devtools.intel.com/ianimash/dff_kat/-/wikis/DFF_KAT-v1.01"))
 
 link2 = Label(tab1, text="IT support contact: idriss.animashaun@intel.com", fg="blue", cursor="hand2")
 link2.grid(row = 1,column = 0, sticky=W, columnspan = 2)
