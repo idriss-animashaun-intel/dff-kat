@@ -482,7 +482,7 @@ def populate_mod_list():
 
 def zip_outputs():
     dest_para_parent = current_directory + "\\outputs\\MASTER_" + outfile
-    dest_para = dest_para_parent + "\\" + outfile
+    dest_para = dest_para_parent + "\\JMP_Outputs"
 
     try:
         os.mkdir(dest_para)
@@ -501,7 +501,7 @@ def zip_outputs():
             shutil.copy(fn, dest_para)
 
     shutil.make_archive(dest_para, 'zip', dest_para)
-    print("Zipped to: ",outfile)
+    print("Zipped to: MASTER_",outfile)
     print('Analysis Completed Successfully')
 
 def dumpFolder():
