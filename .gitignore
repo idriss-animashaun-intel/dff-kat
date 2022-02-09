@@ -5,3 +5,4 @@ dist
 *.spec
 pyinstaller_dff_kat.txt
 outputs
+mainR00.py
