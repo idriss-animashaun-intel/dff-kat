@@ -61,16 +61,12 @@ def master_file():
 
     def pipe_delimination(comp_csv):
         drop_list = []
-        # y = 0
         for i in range(0,len(comp_csv.columns)):
             if comp_csv.columns[i] in list_pipe_cols:
                 temp = []
                 collect = df_results['DFF_TokenName'][df_results['DFF_TokenName'].str.contains(comp_csv.columns[i] + '_[0-9]')]
-                # print(len(collect))
                 for j in collect:
                     temp.append(j)
-                # y += 1
-                # print(temp,len(temp), y)
                 comp_csv[temp] = comp_csv[comp_csv.columns[i]].str.split("|",expand=True)
                 drop_list.append(comp_csv.columns[i])
 
@@ -259,7 +255,6 @@ def jmp_mod_split_all():
             # io
             # gt
             
-            # print(selected_mod)
             if 'ARR' in selected_mod and '_DE' not in selected_mod and '_GT' not in selected_mod:
                 sheet = dfs[0]   
             elif 'SCN' in selected_mod and '_DE' not in selected_mod and '_GT' not in selected_mod:
@@ -376,14 +371,10 @@ def jmp_mod_split():
     elif 'FUN' in variable.get() and '_DE' not in variable.get() and '_GT' not in variable.get():
         sheet = fun_sheet
     
-    # cols = sheet.columns
 
     split_tokens = []
 
     over_sheet_strip = overview_sheet[['DFF_TokenName', 'ModuleName']]
-    # over_sheet_strip = over_sheet_strip[~over_sheet_strip['DFF_TokenName'].str.contains("^DFF.*_[0-9]*$", na=False) | over_sheet_strip['DFF_TokenName'].str.contains("_0", na=False)]
-    # over_sheet_strip['DFF_TokenName'] = over_sheet_strip['DFF_TokenName'].str.replace("_0$", '')
-    # over_sheet_strip = over_sheet_strip.reset_index(drop=True)
 
     for j in range(0,len(over_sheet_strip['ModuleName'])):
         if over_sheet_strip['ModuleName'][j] == selected_mod:
@@ -410,9 +401,7 @@ def jmp_mod_split():
     print('Analysis Completed Successfully')
 
 def run_jmp(output_file = 'null', selected_mod = 'null'):
-    # print('before ',os.getcwd())
     os.chdir(current_directory)
-    # print('after ',os.getcwd())
     save_path = current_directory +"\outputs\jmp_outputs\\" + str(selected_mod) + "_DFF_KAPPA"
     user_script = current_directory + "\outputs\open_csv.jrp"
     jsl_path = resource_path("Script.jsl")
