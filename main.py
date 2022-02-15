@@ -499,7 +499,7 @@ def zip_outputs():
             shutil.copy(fn, dest_para)
 
     shutil.make_archive(dest_para, 'zip', dest_para)
-    print("Zipped to: MASTER_",outfile)
+    print("Zipped to: output_dffkat\MASTER_",outfile)
     print('Analysis Completed Successfully')
 
 def dumpFolder():
