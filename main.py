@@ -229,7 +229,6 @@ def master_file():
         print('Analysis Completed Successfully')
     subprocess.Popen(r"explorer output_dffkat")
 
-
 def jmp_mod_split_all():
     global output_file
 
@@ -375,6 +374,9 @@ def jmp_mod_split():
     elif 'FUN' in variable.get() and '_DE' not in variable.get() and '_GT' not in variable.get():
         sheet = fun_sheet
     
+    if var3.get() == 1:
+        goodbins = [1,2,3,4,5,6]
+        sheet = sheet[sheet['INTERFACE_BIN_OLD'].isin(goodbins) & sheet['INTERFACE_BIN_NEW'].isin(goodbins)]
 
     split_tokens = []
 
@@ -403,7 +405,6 @@ def jmp_mod_split():
     df_final.to_csv(output_file, encoding='utf-8', index=False)
     run_jmp_ind()
     print('Analysis Completed Successfully')
-    subprocess.Popen(r"explorer TRACKERS")
 
 def run_jmp(output_file = 'null', selected_mod = 'null'):
     os.chdir(current_directory)
@@ -577,7 +578,10 @@ sel_prod = OptionMenu(tab2, variable, *sub_modules)
 sel_prod.grid(row = 3, column = 1, sticky=W)
 
 button_1 = Button(tab2, text="Open in JMP", height = 1, width = 20, command = jmp_mod_split, bg = 'green', fg = 'white', font = '-family "SF Espresso Shack" -size 12')
-button_1.grid(row = 4, column = 0, rowspan = 2 )
+button_1.grid(row = 4, column = 0, sticky=E )
+
+var3 = IntVar(value=1)
+Checkbutton(tab2, text="Good to Good Bins Only", variable=var3).grid(row=4, column = 1, sticky=W)
 
 ### Main loop
 root.mainloop()
