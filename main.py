@@ -176,6 +176,8 @@ def master_file():
     'WAFER_ID',
     'SORT_X',
     'SORT_Y',
+    'INTERFACE_BIN_OLD',
+    'INTERFACE_BIN_NEW',
     'FBIN_OLD',
     'FBIN_NEW'
     ]
@@ -193,9 +195,6 @@ def master_file():
     df_tpi = dfs[4]
     df_io = dfs[5]
     df_gt = dfs[6]
-
-    with pd.ExcelWriter(r"test.xlsx") as writer:  
-        df1.to_excel(writer, sheet_name='ALL', index=False)
 
     outfile = dff_tok_path.strip('.csv')
 
@@ -272,6 +271,9 @@ def jmp_mod_split_all():
             else:
                 print("can't find token")
 
+            if var2.get() == 1:
+                goodbins = [1,2,3,4,5,6]
+                sheet = sheet[sheet['INTERFACE_BIN_OLD'].isin(goodbins) & sheet['INTERFACE_BIN_NEW'].isin(goodbins)]
             def generate_jmp_report(sheet):
 
                 df_final_list = []
@@ -511,7 +513,7 @@ def dumpFolder():
 
 ### Main Root
 root = Tk()
-root.title('DFF_KAT v1.01')
+root.title('DFF_KAT v1.10')
 
 tab_parent = ttk.Notebook(root)
 
@@ -548,6 +550,9 @@ button_0.grid(row = 3, column = 0, rowspan = 2 )
 
 var1 = IntVar(value=1)
 Checkbutton(tab1, text="Generate JMP Reports", variable=var1).grid(row=3, column = 1, sticky=W)
+
+var2 = IntVar(value=1)
+Checkbutton(tab1, text="Good to Good Bins Only", variable=var2).grid(row=4, column = 1, sticky=W)
 
 
 #### Tab 2
