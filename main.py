@@ -16,11 +16,11 @@ import webbrowser
 current_directory = os.getcwd()
 print(current_directory)
 
-dir = os.path.join("outputs")
+dir = os.path.join("output_dffkat")
 if not os.path.exists(dir):
     os.mkdir(dir)
 
-sub_dir = os.path.join("outputs//jmp_outputs")
+sub_dir = os.path.join("output_dffkat//jmp_outputs")
 if not os.path.exists(sub_dir):
     os.mkdir(sub_dir)
 
@@ -200,11 +200,11 @@ def master_file():
 
     os.chdir(current_directory)
 
-    sub_dir = os.path.join("outputs//MASTER_" + outfile)
+    sub_dir = os.path.join("output_dffkat//MASTER_" + outfile)
     if not os.path.exists(sub_dir):
         os.mkdir(sub_dir)
 
-    with pd.ExcelWriter(current_directory + "//outputs//MASTER_" + outfile + "//MASTER_" + outfile + ".xlsx") as writer:  
+    with pd.ExcelWriter(current_directory + "//output_dffkat//MASTER_" + outfile + "//MASTER_" + outfile + ".xlsx") as writer:  
         df_results.to_excel(writer, sheet_name='SUMMARY', index=False)
         df_arr.to_excel(writer, sheet_name='ARR', index=False)
         df_scn.to_excel(writer, sheet_name='SCN', index=False)
@@ -227,6 +227,8 @@ def master_file():
         jmp_mod_split_all()
     else:
         print('Analysis Completed Successfully')
+    subprocess.Popen(r"explorer output_dffkat")
+
 
 def jmp_mod_split_all():
     global output_file
@@ -289,7 +291,7 @@ def jmp_mod_split_all():
                 df_final = sheet[df_final_list]
                 df_final = df_final.loc[:,~df_final.columns.duplicated()]
 
-                output_file = current_directory +"//outputs//jmp_outputs//" + str(selected_mod) + "_DFF_KAPPA.csv"
+                output_file = current_directory +"//output_dffkat//jmp_outputs//" + str(selected_mod) + "_DFF_KAPPA.csv"
                 print(output_file)
                 df_final.to_csv(output_file, encoding='utf-8', index=False)
                 run_jmp(output_file,selected_mod)
@@ -396,16 +398,17 @@ def jmp_mod_split():
     df_final = sheet[start_cols + final_cols]
     df_final = df_final.loc[:,~df_final.columns.duplicated()]
 
-    output_file = current_directory +"//outputs//" + selected_mod + "_DFF_KAPPA.csv"
+    output_file = current_directory +"//output_dffkat//" + selected_mod + "_DFF_KAPPA.csv"
     print(output_file)
     df_final.to_csv(output_file, encoding='utf-8', index=False)
     run_jmp_ind()
     print('Analysis Completed Successfully')
+    subprocess.Popen(r"explorer TRACKERS")
 
 def run_jmp(output_file = 'null', selected_mod = 'null'):
     os.chdir(current_directory)
-    save_path = current_directory +"\outputs\jmp_outputs\\" + str(selected_mod) + "_DFF_KAPPA"
-    user_script = current_directory + "\outputs\open_csv.jrp"
+    save_path = current_directory +"\output_dffkat\jmp_outputs\\" + str(selected_mod) + "_DFF_KAPPA"
+    user_script = current_directory + "\output_dffkat\open_csv.jrp"
     jsl_path = resource_path("Script.jsl")
     reading_file = open(jsl_path, "r")
     
@@ -433,12 +436,11 @@ def run_jmp(output_file = 'null', selected_mod = 'null'):
     
     print("Doing JMP");
     print("Running jmp from local computer");
-    JMPcaller = r'"'  + resource_path("JMPbackgroundcaller.exe") + '"'  + ' "outputs\open_csv.jrp"'
-    print(JMPcaller)
+    JMPcaller = [resource_path("JMPbackgroundcaller.exe") ,"output_dffkat\open_csv.jrp"]
     subprocess.call(JMPcaller,shell = True);
 
 def run_jmp_ind():
-    user_script = current_directory + "\outputs\open_csv.jrp"
+    user_script = current_directory + "\output_dffkat\open_csv.jrp"
     jsl_path = resource_path("Script_ind.jsl")
     print('checking',jsl_path)
     reading_file = open(jsl_path, "r")
@@ -476,7 +478,7 @@ def populate_mod_list():
         _reset_option_menu(sub_mod_list, 0)
 
 def zip_outputs():
-    dest_para_parent = current_directory + "\\outputs\\MASTER_" + outfile
+    dest_para_parent = current_directory + "\\output_dffkat\\MASTER_" + outfile
     dest_para = dest_para_parent + "\\JMP_Outputs"
 
     try:
@@ -484,7 +486,7 @@ def zip_outputs():
     except:
         print("output files previously generated")
 
-    src_para = current_directory +"\\outputs\\jmp_outputs"
+    src_para = current_directory +"\\output_dffkat\\jmp_outputs"
     src_files = os.listdir(src_para)
 
     print("zipping outputs ")
@@ -500,7 +502,7 @@ def zip_outputs():
     print('Analysis Completed Successfully')
 
 def dumpFolder():
-    src_para = current_directory + "\\outputs\\jmp_outputs"
+    src_para = current_directory + "\\output_dffkat\\jmp_outputs"
     for file in os.listdir(src_para):
         file_path = os.path.join(src_para,file)
         try:
