@@ -1,9 +1,0 @@
-.vs
-build
-__pycache__
-dist
-*.spec
-pyinstaller_dff_kat.txt
-outputs
-mainR00.py
-output_dffkat
